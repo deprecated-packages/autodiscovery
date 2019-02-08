@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Autodiscovery\Tests\KernelProjectDir\Controller;
+namespace Symplify\Autodiscovery\Tests\Source\KernelProjectDir\ForTests\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
 
 final class SomeController
 {
     /**
-     * @Route(path="/also-works/", name="also-works")
+     * @Route(path="/it-works/", name="it-works")
      */
     public function some(): void
     {

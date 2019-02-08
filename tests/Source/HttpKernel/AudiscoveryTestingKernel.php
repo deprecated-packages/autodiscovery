@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Autodiscovery\Tests\DependencyInjection;
+namespace Symplify\Autodiscovery\Tests\Source\HttpKernel;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
@@ -12,11 +12,9 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Symplify\Autodiscovery\Discovery;
-use Symplify\PackageBuilder\HttpKernel\SimpleKernelTrait;
 
 final class AudiscoveryTestingKernel extends Kernel
 {
-    use SimpleKernelTrait;
     use MicroKernelTrait;
 
     /**
@@ -24,15 +22,25 @@ final class AudiscoveryTestingKernel extends Kernel
      */
     private $discovery;
 
-    public function __construct()
+    public function __construct(string $environment, bool $debug)
     {
-        parent::__construct('dev' . random_int(1, 10000), true);
+        parent::__construct($environment, $debug);
         $this->discovery = new Discovery($this->getProjectDir());
     }
 
     public function getProjectDir(): string
     {
         return __DIR__ . '/../KernelProjectDir';
+    }
+
+    public function getCacheDir(): string
+    {
+        return sys_get_temp_dir() . '/autodisocovery_test_kernel';
+    }
+
+    public function getLogDir(): string
+    {
+        return sys_get_temp_dir() . '/autodisocovery_log_kernel';
     }
 
     /**
